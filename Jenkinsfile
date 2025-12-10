@@ -57,9 +57,9 @@ pipeline {
         stage('Save Container Images') {
             steps {
                 sh """
-                sudo podman save -o ${SERVICES_BLUETOOTH}_${IMAGE_VERSION}.tar ${SERVICES_BLUETOOTH}:${IMAGE_VERSION}
-                sudo podman save -o ${SERVICES_SENSORS}_${IMAGE_VERSION}.tar ${SERVICES_SENSORS}:${IMAGE_VERSION}
-                sudo podman save -o ${SERVICES_MQTT_${IMAGE_VERSION}.tar ${SERVICES_MQTT}:${IMAGE_VERSION}
+                sudo podman save -o service-bluetooth_${IMAGE_VERSION}.tar ${SERVICES_BLUETOOTH}:${IMAGE_VERSION}
+                sudo podman save -o service-blesensors_${IMAGE_VERSION}.tar ${SERVICES_SENSORS}:${IMAGE_VERSION}
+                sudo podman save -o service-mqtt_${IMAGE_VERSION}.tar ${SERVICES_MQTT}:${IMAGE_VERSION}
                 """
             }
         }
