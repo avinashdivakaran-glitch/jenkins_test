@@ -80,8 +80,22 @@ pipeline {
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
                     sudo podman push ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
-                    
+                    sudo tar -czvf oci_bundles/service-bluetooth.tar.gz -C oci_bundles service-bluetooth
                     """
+
+                    // sh """
+                    // sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    // mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    // sudo podman push ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    // sudo tar -czvf oci_bundles/service-bluetooth.tar.gz -C oci_bundles service-bluetooth
+                    // """
+
+                    // sh """
+                    // sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    // mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    // sudo podman push ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    // sudo tar -czvf oci_bundles/service-bluetooth.tar.gz -C oci_bundles service-bluetooth
+                    // """
                 }
             }
         }
@@ -91,7 +105,7 @@ pipeline {
     post {
         success {
             archiveArtifacts artifacts: '*.tar', fingerprint: true
-            archiveArtifacts artifacts: 'oci_bundles/*', fingerprint: true
+            // archiveArtifacts artifacts: 'oci_bundles/**', fingerprint: true
             echo "Pipeline successfully completed!"
         }
 
