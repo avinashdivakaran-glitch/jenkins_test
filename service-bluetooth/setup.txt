@@ -1,0 +1,9 @@
+MQTT
+1. sudo systemctl stop mosquitto
+2. sudo mosquitto -c mosquitto.conf
+
+MQTT pub sub
+1. mosquitto_pub -h localhost -t tnn_server/bluetooth/adapter -m '{"HeaderID": "12345", "timestamp": "2023-10-29T12:34:56Z", "SetPower": true}'
+2. mosquitto_pub -h localhost -t tnn_server/bluetooth/adapter -m '{"HeaderID": "12345", "timestamp": "2023-10-29T12:34:56Z", "SetPower": false}'
+3. mosquitto_pub -h localhost -t tnn_server/bluetooth/func/pair -m '{"HeaderID": "12345", "timestamp": "2023-10-29T12:34:56Z", "SetPair": true, "Data":{"DeviceMAC":"08:3A:F2:B8:9F:B6"}}'
+4. mosquitto_pub -h localhost -t tnn_server/bluetooth/func/pair -m '{"HeaderID": "12345", "timestamp": "2023-10-29T12:34:56Z", "SetConnect": true, "Data":{"DeviceMAC":"08:3A:F2:B8:9F:B6"}}'

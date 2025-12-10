@@ -1,0 +1,185 @@
+tnn_server/bluetooth/service
+{
+    offline / online
+}
+Topic : status of the service
+process : if the go-ble service runs on backend topic will hold "online". if the backend ble-app not running topic will hold "offline" 
+
+
+tnn_server/bluetooth/adapter
+{
+    "HeaderID"  : "12345",
+    "timestamp" : "2025-10-30T14:45:00Z",
+    "SetPower"  : true,
+    "data": {
+        "IsAvailable"   : true,             // adapter available or not
+        "Adapter"       : "AdapterA",       // adapter ID
+        "IsPowered"     : true,             // adapter power on/off
+        "Error"         : ""
+    }
+}
+Topic : Control and Display the bluetooth adapter power state
+Process : 
+    "SetPower" Use for turn on/off bluetooth adapter. if value set to true backend start the process to enable adapter. if value is false backend process to disable adapter.
+    "data" section Display the current state of the adapter
+    "IsAvailable" Display true if the adapter is discover by the backend else display as false
+    "Adapter" Display adapter ID
+    "IsPowered" Display the current power state of the adapter. true -> power ON, false -> power off
+    "Error" If there any error in these backend process, error will display on this. or if there not any error "no error" will display
+when "SetPower" set to true backend try to power on adapter. if the process success "IsPowered" set to true. else "Ispowered" set to false and error will display on "Error"
+
+
+tnn_server/bluetooth/func/discover
+{
+    "HeaderID"      : "12346",
+    "timestamp"     : "2025-10-30T14:46:00Z",
+    "SetDiscover"   : true,
+    "data": {
+        "IsDiscoverable": true,
+        "Error"         : ""
+    }
+}
+Topic : Control and Display the Host Bluetooth Discover state
+Process :
+    "SetDiscover" use for set device bluetooth to discoverable or not
+    "data" section display the current state of the adapter
+    "IsDiscoverable" Display true if the device is at discoverable mode else display false
+    "Error" If there any error in these backend process, error will display on this. or if there not any error "no error" will display
+when "SetDiscover" set to true backend start the process and if it complete "IsDiscoverable" set to true. same for the "SetDiscover" false method. errors will display on "Error"
+
+
+tnn_server/bluetooth/func/scan
+{
+    "HeaderID"  : "12347",
+    "timestamp" : "2025-10-30T14:47:00Z",
+    "SetScan"   : true,
+    "data": {
+        "IsScan": true,
+        "Error" : ""
+    }
+}
+Topic : Control and Display the Bluetooth Scan process
+Process : 
+    "SetScan" use for start the bluetooth scan process. if value set to true backend process will start to scan device. else stop the scan
+    "IsScan" Display the current adapter scan state
+    "Error" Display error if there problem on backend process
+
+
+tnn_server/bluetooth/func/pair
+{
+    "HeaderID"  : "12348",
+    "timestamp" : "2025-10-30T14:48:00Z",
+    "SetPair"   : true,
+    "SetRemove" : false,
+    "data": {
+        "IsPaired"  : true,
+        "IsRemoved" : false,
+        "DeviceMAC" : "00:14:22:01:23:45",
+        "Error"     : ""
+    }
+}
+Topic : Device pair and forget process 
+Process : 
+    "SetPair" use for trigger the backend device-pair function
+    "SetRemove" use for trigger backend device-forget function
+    "IsPaired" Display true if the adapter pair with device that given at "DeviceMAC".
+    "IsRemoved" Display true if the adapter forget the device that given at "DeviceMAC".
+    "DeviceMAC" MAC address of the device that need tp process
+    "Error" error display section
+If need to pair with device "SetPair" set to true with the MAC address of the device to "DeviceMAC" at "data" section. if adapter pair with device successfully "IsPaired" set to true.
+else "IsPaired" set to false and error will display on "Error". Same process to Forget a device
+
+
+tnn_server/bluetooth/func/connect
+{
+    "HeaderID"      : "12349",
+    "timestamp"     : "2025-10-30T14:49:00Z",
+    "SetConnect"    : true,
+    "SetDisconnect" : false,
+    "data": {
+        "IsConnected"   : true,
+        "IsDisconnected": false,
+        "DeviceMAC"     : "00:14:22:01:23:45",
+        "Error"         : ""
+    }
+}
+Topic : Device Connect and Disconnect process
+Process : 
+    "SetConnect" use for trigger the backend device-connect function
+    "SetDisconnect" use for trigger the backend device-disconnect function
+    "IsConnected" Display true if the adapter connect to the device that given at "DeviceMAC".
+    "IsDisconnected" Display true if the adapter disconnect the device that given at "DeviceMAC"
+    "DeviceMAC" MAC address of the device that need process
+    "Error" if there is error in process display
+When Connecting to device, need to set "SetConnect" to true and "DeviceMAC" with device need to connect. if backend complete process and connect to device "IsConnected" set to true.
+If there is error "IsConnected" set to false and error ill display on "Error". Same for Disconnect device process
+
+
+tnn_server/bluetooth/device/scanned
+{
+    "HeaderID"  : "98765",
+    "timestamp" : "2025-10-30T15:00:00Z",
+    "data": {
+        "Devices": [
+            {
+                "Name"          : "Bluetooth Speaker",
+                "UUID"          : ["0000110B-0000-1000-8000-00805F9B34FB"],
+                "MAC"           : "00:1A:7D:DA:71:13",
+                "Signal"        : -45,
+                "Class"         : 0x240404,
+                "Type"          : "Audio"
+            },
+            {
+                "Name"          : "Wireless Headphones",
+                "UUID"          : ["0000110B-0000-1000-8000-00805F9B34FB"],
+                "MAC"           : "00:1A:7D:DA:71:14",
+                "Signal"        : -55,
+                "Class"         : 0x240404,
+                "Type"          : "Audio"
+            }
+        ],
+        "Error": ""
+    }
+}
+Topic : Display the Scanned devices
+Process : 
+    "Devices" display the scanned device details on list
+    "Error" if there is problem in device scan process. display error
+when trigger the "SetScan" on tnn_server/bluetooth/func/scan and backend able to complete process, Scan devices are display on here. device list will update if only new device add.
+
+
+tnn_server/bluetooth/device/paired
+{
+    "HeaderID"  : "98765",
+    "timestamp" : "2025-10-30T15:00:00Z",
+    "data": {
+        "Devices": [
+            {
+                "Name"          : "Bluetooth Speaker",
+                "UUID"          : ["0000110B-0000-1000-8000-00805F9B34FB"],
+                "MAC"           : "00:1A:7D:DA:71:13",
+                "Signal"        : -45,
+                "Class"         : 0x240404,
+                "Type"          : "Audio",
+                "IsAvailable"   : true
+            },
+            {
+                "Name"          : "Wireless Headphones",
+                "UUID"          : ["0000110B-0000-1000-8000-00805F9B34FB"],
+                "MAC"           : "00:1A:7D:DA:71:14",
+                "Signal"        : -55,
+                "Class"         : 0x240404,
+                "Type"          : "Audio",
+                "IsAvailable"   : true
+            }
+        ],
+        "Error": ""
+    }
+}
+Topic : Display the already paired devices
+Process : 
+    "Devices" display the paired device details on list
+    "Error" if there is problem in device paired process. display error
+when trigger the "SetPower" on tnn_server/bluetooth/func/adapter and backend able to complete process, pair devices are display on here. device list will update if only new device is paired
+
+
