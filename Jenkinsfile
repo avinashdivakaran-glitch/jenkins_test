@@ -80,8 +80,7 @@ pipeline {
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
                     sudo podman push ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
-                    sudo tar -czvf ${OCI_BUNDLE_DIR}/service-bluetooth.tar.gz -C ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
-
+                    
                     """
                 }
             }
