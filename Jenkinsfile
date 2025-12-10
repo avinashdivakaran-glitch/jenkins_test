@@ -85,19 +85,20 @@ pipeline {
     }
 
     post {
-        always {
-            // Clean up any temporary files or artifacts
-            cleanWs()
-        }
-
+        
         success {
-            // Send success notification (optional)
+            archiveArtifacts artifacts: '*.tar', fingerprint: true
             echo "Pipeline successfully completed!"
         }
 
         failure {
             // Send failure notification (optional)
             echo "Pipeline failed. Check the logs."
+        }
+
+        always {
+            // Clean up any temporary files or artifacts
+            cleanWs()
         }
     }
 }
