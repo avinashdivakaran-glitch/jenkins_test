@@ -9,7 +9,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # 2. Copy Mosquitto config into container
-COPY config/mosquitto.conf /etc/mosquitto/
+COPY mosquitto.conf /etc/mosquitto/
 
 # 3. Copy our new startup script
 COPY start_mosquitto.sh /start_mosquitto.sh
