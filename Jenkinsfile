@@ -105,7 +105,7 @@ pipeline {
     post {
         success {
             archiveArtifacts artifacts: '*.tar', fingerprint: true
-            archiveArtifacts artifacts: 'oci_bundles/*.tar', fingerprint: true
+            archiveArtifacts artifacts: 'oci_bundles/*.tar.gz', fingerprint: true
             echo "Pipeline successfully completed!"
         }
 
