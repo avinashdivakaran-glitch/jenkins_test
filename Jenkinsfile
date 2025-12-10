@@ -56,32 +56,36 @@ pipeline {
 
         stage('Save Container Images') {
             steps {
-                sh """
-                sudo podman save -o service-bluetooth_${IMAGE_VERSION}.tar ${SERVICES_BLUETOOTH}:${IMAGE_VERSION}
-                sudo podman save -o service-blesensors_${IMAGE_VERSION}.tar ${SERVICES_SENSORS}:${IMAGE_VERSION}
-                sudo podman save -o service-mqtt_${IMAGE_VERSION}.tar ${SERVICES_MQTT}:${IMAGE_VERSION}
-                ls -lah
-                """
+                script {
+                    sh """
+                    sudo podman save -o service-bluetooth_${IMAGE_VERSION}.tar ${SERVICES_BLUETOOTH}:${IMAGE_VERSION}
+                    sudo podman save -o service-blesensors_${IMAGE_VERSION}.tar ${SERVICES_SENSORS}:${IMAGE_VERSION}
+                    sudo podman save -o service-mqtt_${IMAGE_VERSION}.tar ${SERVICES_MQTT}:${IMAGE_VERSION}
+                    ls -lah
+                    """
+                }
             }
         }
 
-        // stage('Create OCI Bundle') {
-        //     steps {
-        //         script {
-        //             // Create OCI bundle directory if it doesn't exist
-        //             sh """
-        //             mkdir -p ${OCI_BUNDLE_DIR}
-        //             """
+        stage('Create OCI Bundle') {
+            steps {
+                script {
+                    // Create OCI bundle directory if it doesn't exist
+                    sh """
+                    mkdir -p ${OCI_BUNDLE_DIR}
+                    """
 
-        //             // Generate OCI bundles for each service
-        //             sh """
-        //             sudo podman generate systemd --name ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} --output ${OCI_BUNDLE_DIR}/service-bluetooth-bundle
-        //             sudo podman generate systemd --name ${SERVICES_SENSORS}:${IMAGE_VERSION} --output ${OCI_BUNDLE_DIR}/service-sensors-bundle
-        //             sudo podman generate systemd --name ${SERVICES_MQTT}:${IMAGE_VERSION} --output ${OCI_BUNDLE_DIR}/service-mqtt-bundle
-        //             """
-        //         }
-        //     }
-        // }
+                    // Generate OCI bundles for each service
+                    sh """
+                    sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    sudo podman push ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    tar -czvf ${OCI_BUNDLE_DIR}/service-bluetooth.tar.gz -C ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+
+                    """
+                }
+            }
+        }
 
     }
 
