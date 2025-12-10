@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    cd /opt/jankins_packages
+                    cd /opt/jenkins_packages
                     sudo podman load -i debian-bookworm-slim.tar
                     sudo podman load -i golang-1.25.1.tar
                     """
