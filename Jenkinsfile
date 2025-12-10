@@ -60,6 +60,7 @@ pipeline {
                 sudo podman save -o service-bluetooth_${IMAGE_VERSION}.tar ${SERVICES_BLUETOOTH}:${IMAGE_VERSION}
                 sudo podman save -o service-blesensors_${IMAGE_VERSION}.tar ${SERVICES_SENSORS}:${IMAGE_VERSION}
                 sudo podman save -o service-mqtt_${IMAGE_VERSION}.tar ${SERVICES_MQTT}:${IMAGE_VERSION}
+                ls -lah
                 """
             }
         }
@@ -85,7 +86,6 @@ pipeline {
     }
 
     post {
-        
         success {
             archiveArtifacts artifacts: '*.tar', fingerprint: true
             echo "Pipeline successfully completed!"
