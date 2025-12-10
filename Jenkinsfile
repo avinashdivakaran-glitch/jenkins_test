@@ -96,8 +96,8 @@ pipeline {
             echo "Pipeline failed. Check the logs."
         }
 
-        always {
-            // Clean up any temporary files or artifacts
+        cleanup {
+            // optional cleanup AFTER archiving
             cleanWs()
         }
     }
