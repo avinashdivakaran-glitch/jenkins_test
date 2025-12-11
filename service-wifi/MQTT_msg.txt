@@ -1,0 +1,162 @@
+tnn_server/wifi/service
+{
+    offline / online
+}
+Topic : status of the service
+process : if the go-wifi service runs on backend topic will hold "online". if the backend go-wifi not running topic will hold "offline" 
+
+
+tnn_server/wifi/property
+{
+    "HeaderID": "98765",
+    "timestamp": "2025-10-30T14:45:00Z",
+    "data": {
+        "WiFiType": "802.11ac",
+        "WiFiMode": "Managed",
+        "Security": "WPA2",
+        "SSID": "HomeNetwork",
+        "Password": "mypassword123",
+        "Signal": 82,
+        "Frequency": 5200,
+        "MAC": "AA:BB:CC:DD:EE:FF",
+        "IPv4": "192.168.1.24",
+        "IPv6": "fe80::1234:abcd",
+        "Error": ""
+    }
+}
+Topic : Display the properties of the device wifi
+process :
+    "Error" if there is error getting the device wifi properties, Display error
+
+
+tnn_server/wifi/adapter
+{
+    "HeaderID": "12345",
+    "timestamp": "2025-10-30T14:45:00Z",
+    "SetPower": true,
+    "data": {
+        "IsAvailable": true,
+        "Adapter": "AdapterA",
+        "IsPowered": true,
+        "Error": ""
+    }
+}
+Topic : Control and Display wifi adapter state
+Process :
+    "SetPower" use for power on the wifi adapter. true -> On. false -> Off
+    "IsAvailable" Display true if the backend able to detect the wifi adapter
+    "Adapter" Display the available adapter name
+    "IsPowered" Display true if the adapter is power on. else display off
+    "Error" If there is any error in process display it
+when "SetPower" is set true backend start the process, if the process is complete "IsPowered" set to true. else "IsPowered" is false and "Error" will display
+
+
+tnn_server/wifi/hotspot
+{
+    "HeaderID": "HOT-999",
+    "timestamp": "2025-10-30T14:45:00Z",
+    "SetHotspot": true,
+    "data": {
+        "IsHotspot": true,
+        "Error": ""
+    }
+}
+Topic : Control and Display wifi Hotsopt state
+Process :
+    "SetHotspot" use for trigger the backend hotspot function. SSID:jetson_tnn , password:12345678
+    "IsHotspot" Display true if the hotspot is enable. else false
+    "Error" if there is any error in process display error
+when "SetHotspot" set true backend start the process and if it complete "IsHotspot" set to true. else is there problem "IsHotspot" set to false and "Error" wil display 
+
+
+tnn_server/wifi/func/scan
+{
+    "HeaderID": "SCAN-001",
+    "timestamp": "2025-10-30T14:45:00Z",
+    "SetScan": true,
+    "data": {
+        "IsScan": true,
+        "Error": ""
+    }
+}
+Topic : Control and Display wifi Scan process
+Process : 
+    "SetScan" use for trigger backend wifi scan function. if true start the scan. else stop the scan
+    "IsScan" display true if the start scan method complete without error
+    "Error" if there is any problem in process display error
+when "SetScan" set true scanning process try to start. if process start without error "IsScan" set tot true. else "Error" will display and "IsScan" set to false
+
+
+tnn_server/wifi/func/connect
+{
+    "HeaderID": "CON-5531",
+    "timestamp": "2025-10-30T14:45:00Z",
+    "SetConnect": true,
+    "data": {
+        "IsConnected": true,
+        "SSID": "OfficeWiFi",
+        "Password": "office@2024",
+        "Recon": false,
+        "Error": ""
+    }
+}
+Topic : Control and Display wifi device connect process
+Process :
+    "SetConnect" use for trigger backend wifi connecting method.
+    "IsConnected" Display true if the wifi is connected to given device
+    "SSID" ssid of the wifi AP 
+    "Password" password of the wifi AP 
+    "Recon" set true if need to auto reconnect, else false
+    "Error" if there is any problem in process display error
+when "SetConnect" set to true backend try to connect wifi with properties with "SSID", "Password" and "Recon". if device connected to wifi "IsConnected" set to true. else false.
+If there is any problem "Error" with update
+
+
+tnn_server/wifi/func/disconnect
+{
+    "HeaderID": "DISC-777",
+    "timestamp": "2025-10-30T14:45:00Z",
+    "SetDisconnect": true,
+    "SetRemove": false,
+    "data": {
+        "IsDisconnected": true,
+        "SSID": "OfficeWiFi",
+        "Error": ""
+    }
+}
+Topic : Control and Display device disconnect process
+Process : 
+    "SetDisconnect" use for trigger backend wifi disconnect method
+    "SetRemove" use for trigger backend wifi forget method
+    "IsDisconnected" true if given device is disconnect or remove successfully
+    "SSID" ssid of the device that need to disconnect or remove
+    "Error" if there is error in process error with update
+when need to disconnect the connected wifi device "IsDisconnected" set to true with "SSID". if the process complete successfully "IsDisconnected" set to true, else set as false and "Error" value display
+Same method for forget a device
+
+
+tnn_server/wifi/device/scanned
+{
+    "HeaderID": "SCANLIST-222",
+    "timestamp": "2025-10-30T14:45:00Z",
+    "data": {
+        "Devices": [
+            {
+                "SSID": "HomeNetwork",
+                "BSSID": "AA:BB:CC:11:22:33",
+                "Strength": 78
+            },
+            {
+                "SSID": "GuestWiFi",
+                "BSSID": "AA:BB:CC:44:55:66",
+                "Strength": 55
+            }
+        ],
+        "Error": ""
+    }
+}
+Topic : Display the scanned device list
+Process : 
+    "Devices" Display the scanned device list
+    "Error" if any problem occurred while detect scanning devices, error will display
+when the "SetScan" is triggered and if the scan start process complete then "Devices" will display available devices. if there is error "Error" will update
