@@ -128,9 +128,9 @@ pipeline {
             echo "Pipeline failed. Check the logs."
         }
 
-        cleanup {
-            // optional cleanup AFTER archiving
-            cleanWs()
-        }
+        // cleanup {
+        //     // optional cleanup AFTER archiving
+        //     cleanWs()
+        // }
     }
 }
