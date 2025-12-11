@@ -50,7 +50,7 @@ pipeline {
                     sudo podman build --platform linux/arm64 -t ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} ./service-bluetooth
                     sudo podman build --platform linux/arm64 -t ${SERVICES_SENSORS}:${IMAGE_VERSION} ./service-blesensors
 
-                    sudo podman build --platform linux/arm64 -t ${SERVICES_WIFI}:${SERVICES_WIFI} ./service-wifi
+                    sudo podman build --platform linux/arm64 -t ${SERVICES_WIFI}:${IMAGE_VERSION} ./service-wifi
 
                     sudo podman build --platform linux/arm64 -t ${SERVICES_MQTT}:${IMAGE_VERSION} ./service-mqtt
                     """
@@ -65,7 +65,7 @@ pipeline {
                     sudo podman save -o service-bluetooth_${IMAGE_VERSION}.tar ${SERVICES_BLUETOOTH}:${IMAGE_VERSION}
                     sudo podman save -o service-blesensors_${IMAGE_VERSION}.tar ${SERVICES_SENSORS}:${IMAGE_VERSION}
 
-                    sudo podman save -o service-wifi${SERVICES_WIFI}.tar ${SERVICES_WIFI}:${SERVICES_WIFI}
+                    sudo podman save -o service-wifi_${IMAGE_VERSION}.tar ${SERVICES_WIFI}:${IMAGE_VERSION}
 
                     sudo podman save -o service-mqtt_${IMAGE_VERSION}.tar ${SERVICES_MQTT}:${IMAGE_VERSION}
                     ls -lah
