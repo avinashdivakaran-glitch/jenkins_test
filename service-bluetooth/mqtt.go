@@ -29,9 +29,9 @@ var (
 
 // Paths to TLS certificates
 var (
-	caCertFile     = "certs/ca.crt"
-	clientCertFile = "certs/ble_app.crt"
-	clientKeyFile  = "certs/ble_app.key"
+	caCertFile     = "app/certs/ca.crt"
+	clientCertFile = "app/certs/ble_app.crt"
+	clientKeyFile  = "app/certs/ble_app.key"
 )
 
 var (
