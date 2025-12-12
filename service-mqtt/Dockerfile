@@ -11,6 +11,8 @@ RUN apt-get update && \
 # 2. Copy Mosquitto config into container
 COPY mosquitto.conf /etc/mosquitto/
 
+COPY certs /certs/
+
 # 3. Copy our new startup script
 COPY start_mosquitto.sh /start_mosquitto.sh
 

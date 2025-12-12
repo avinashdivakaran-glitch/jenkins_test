@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/ble_fn_mqtt /usr/local/bin/
+COPY certs /app/certs/
 
 CMD [ "ble_fn_mqtt" ]
 
