@@ -86,7 +86,8 @@ func testTLSConnection(brokerURL string, config *tls.Config) error {
 // init mqtt
 func Init_mqttClient() (client mqtt.Client) {
 	var broker string
-	var tlsConfig *tls.Config
+
+	opts := mqtt.NewClientOptions()
 
 	if !cert {
 		broker = tcp_broker
@@ -118,16 +119,18 @@ func Init_mqttClient() (client mqtt.Client) {
 			logrus.Fatalf("TLS connection pre-flight check FAILED: %v", err)
 		}
 		logrus.Info("TLS pre-flight check succeeded.")
+
+		opts.SetTLSConfig(tlsConfig)
 	}
 
 	// MQTT client options
-	opts := mqtt.NewClientOptions()
+	// opts := mqtt.NewClientOptions()
 
 	opts.AddBroker(broker)
 	opts.SetClientID(clientID)
-	if cert {
-		opts.SetTLSConfig(tlsConfig)
-	}
+	// if cert {
+	// 	opts.SetTLSConfig(tlsConfig)
+	// }
 
 	opts.SetKeepAlive(60 * time.Second)
 	opts.SetPingTimeout(10 * time.Second)
