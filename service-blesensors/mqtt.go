@@ -26,9 +26,9 @@ var (
 
 // Paths to TLS certificates
 var (
-	caCertFile     = "certs/ca.crt"
-	clientCertFile = "certs/tnn-ble_sensor.crt"
-	clientKeyFile  = "certs/tnn-ble_sensor.key"
+	caCertFile     = "app/certs/ca.crt"
+	clientCertFile = "app/certs/tnn-ble_sensor.crt"
+	clientKeyFile  = "app/certs/tnn-ble_sensor.key"
 )
 
 var (
@@ -86,6 +86,8 @@ func testTLSConnection(brokerURL string, config *tls.Config) error {
 // init mqtt
 func Init_mqttClient() (client mqtt.Client) {
 	var broker string
+	var tlsConfig *tls.Config
+
 	if !cert {
 		broker = tcp_broker
 	} else {
@@ -123,7 +125,9 @@ func Init_mqttClient() (client mqtt.Client) {
 
 	opts.AddBroker(broker)
 	opts.SetClientID(clientID)
-	// opts.SetTLSConfig(tlsConfig)
+	if cert {
+		opts.SetTLSConfig(tlsConfig)
+	}
 
 	opts.SetKeepAlive(60 * time.Second)
 	opts.SetPingTimeout(10 * time.Second)

@@ -107,6 +107,8 @@ func testTLSConnection(brokerURL string, config *tls.Config) error {
 }
 
 func Init_mqttClient() (client mqtt.Client) {
+	var tlsConfig *tls.Config
+
 	if !cert {
 		broker = tcp_broker
 	} else {
@@ -144,7 +146,9 @@ func Init_mqttClient() (client mqtt.Client) {
 
 	opts.AddBroker(broker)
 	opts.SetClientID(clientID)
-	// opts.SetTLSConfig(tlsConfig)
+	if cert {
+		opts.SetTLSConfig(tlsConfig)
+	}
 
 	opts.SetKeepAlive(60 * time.Second)
 	opts.SetPingTimeout(10 * time.Second)
