@@ -18,10 +18,10 @@ import (
 
 // MQTT broker settings
 var (
-	cert       = false
+	cert       = true
 	broker     = ""
 	tcp_broker = "tcp://localhost:1884"
-	ssl_broker = "ssl://192.168.1.83:8883"
+	ssl_broker = "ssl://localhost:8884"
 	clientID   = "TNN_bluetoothService"
 	username   = ""
 	password   = ""
@@ -30,8 +30,8 @@ var (
 // Paths to TLS certificates
 var (
 	caCertFile     = "certs/ca.crt"
-	clientCertFile = "certs/server.crt"
-	clientKeyFile  = "certs/server.key"
+	clientCertFile = "certs/ble_app.crt"
+	clientKeyFile  = "certs/ble_app.key"
 )
 
 var (

@@ -16,9 +16,9 @@ import (
 
 // MQTT broker settings
 var (
-	tcp        = true
+	cert       = true
 	tcp_broker = "tcp://localhost:1884"
-	ssl_broker = "ssl://192.168.1.83:8883"
+	ssl_broker = "ssl://localhost:8884"
 	clientID   = "DEVICE_01_sensor"
 	username   = ""
 	password   = ""
@@ -86,7 +86,7 @@ func testTLSConnection(brokerURL string, config *tls.Config) error {
 // init mqtt
 func Init_mqttClient() (client mqtt.Client) {
 	var broker string
-	if tcp {
+	if !cert {
 		broker = tcp_broker
 	} else {
 		broker = ssl_broker
