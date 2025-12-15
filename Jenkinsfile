@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = "tnn_backend"
+        APP_NAME = "tnn-backend"
         IMAGE_VERSION = "1.0.0"
 
         DEB_ARCH = "arm64"

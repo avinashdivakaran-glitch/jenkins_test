@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APP_PATH="/opt/tnn_backend/bundles"
+APP_PATH="/opt/tnn-backend/bundles"
 
 echo "1. Loading OCI images into Podman storage..."
 
