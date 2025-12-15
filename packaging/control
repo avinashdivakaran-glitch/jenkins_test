@@ -1,4 +1,4 @@
-Package: tnn_backend
+Package: tnn-backend
 Version: VERSION_PLACEHOLDER
 Architecture: ARCH_PLACEHOLDER
 Maintainer: Jenkins
