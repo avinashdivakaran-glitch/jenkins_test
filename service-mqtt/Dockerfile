@@ -1,6 +1,6 @@
 
 
-FROM dc564059eedb
+FROM debian:bookworm-slim
 
 # 1. Update and install necessary packages
 RUN apt-get update && \
