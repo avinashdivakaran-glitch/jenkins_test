@@ -174,7 +174,7 @@ pipeline {
     post {
         success {
             archiveArtifacts artifacts: '*.tar', fingerprint: true
-            archiveArtifacts artifacts: '*.deb', fingerprint: true
+            archiveArtifacts artifacts: 'dist/*.deb', fingerprint: true
             echo "Build successful! Download your .deb package from artifacts."
         }
 
