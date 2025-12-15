@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APP_PATH="/opt/tnn-backend/bundles"
+APP_PATH="/opt/tnn_backend/bundles"
 SERVICES_BLUETOOTH="service-bluetooth"
 SERVICES_SENSORS="service-blesensors"
 SERVICES_WIFI="service-wifi"
@@ -10,10 +10,10 @@ SERVICES_MQTT="service-mqtt"
 echo "1. Loading OCI images into Podman storage..."
 
 # Pull from the local installed OCI bundles into system storage
-podman pull "oci:${APP_PATH}/${SERVICES_BLUETOOTH}"
-podman pull "oci:${APP_PATH}/${SERVICES_SENSORS}"
-podman pull "oci:${APP_PATH}/${SERVICES_WIFI}"
-podman pull "oci:${APP_PATH}/${SERVICES_MQTT}"
+sudo podman pull "oci:${APP_PATH}/${SERVICES_BLUETOOTH}"
+sudo podman pull "oci:${APP_PATH}/${SERVICES_SENSORS}"
+sudo podman pull "oci:${APP_PATH}/${SERVICES_WIFI}"
+sudo podman pull "oci:${APP_PATH}/${SERVICES_MQTT}"
 
 
 echo "2. Reloading systemd daemon ..."
