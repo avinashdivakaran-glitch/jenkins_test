@@ -1,6 +1,6 @@
 
 
-FROM debian:bookworm-slim
+FROM docker.io/library/debian:bookworm-slim
 
 # 1. Update and install necessary packages
 RUN apt-get update && \
