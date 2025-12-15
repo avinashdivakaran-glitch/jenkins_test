@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        APP_NAME = "tnn_backend"
         IMAGE_VERSION = "v1.0.0"
 
         SERVICES_BLUETOOTH = "service-bluetooth"
@@ -20,12 +21,15 @@ pipeline {
             }
         }
 
-        stage('Install Podman') {
+        stage('Install Build Tools') {
             steps {
                 sh """
                 if ! command -v podman >/dev/null 2>&1; then
                     sudo apt update
                     sudo apt install -y podman golang
+                # Ensure dpkg-deb is available (usually in build-essential or dpkg-dev)
+                if ! command -v dpkg-deb >/dev/null 2>&1; then
+                    sudo apt install -y dpkg-dev
                 fi
                 """
             }
@@ -87,40 +91,85 @@ pipeline {
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
                     sudo podman push ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
-                    sudo tar -czvf oci_bundles/service-bluetooth.tar.gz -C oci_bundles service-bluetooth
+                    // sudo tar -czvf oci_bundles/service-bluetooth.tar.gz -C oci_bundles service-bluetooth
                     """
 
                     sh """
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_SENSORS}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_SENSORS}
                     sudo podman push ${SERVICES_SENSORS}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_SENSORS}
-                    sudo tar -czvf oci_bundles/service-blesensors.tar.gz -C oci_bundles service-blesensors
+                    // sudo tar -czvf oci_bundles/service-blesensors.tar.gz -C oci_bundles service-blesensors
                     """
 
                     sh """
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_WIFI}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_WIFI}
                     sudo podman push ${SERVICES_WIFI}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_WIFI}
-                    sudo tar -czvf oci_bundles/service-wifi.tar.gz -C oci_bundles service-wifi
+                    // sudo tar -czvf oci_bundles/service-wifi.tar.gz -C oci_bundles service-wifi
                     """
 
                     sh """
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_MQTT}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_MQTT}
                     sudo podman push ${SERVICES_MQTT}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_MQTT}
-                    sudo tar -czvf oci_bundles/service-mqtt.tar.gz -C oci_bundles service-mqtt
+                    // sudo tar -czvf oci_bundles/service-mqtt.tar.gz -C oci_bundles service-mqtt
                     """
                 }
             }
         }
+
+
+
+        stage('Build Debian Package') {
+            steps {
+                script {
+                    def pkgDir = "deb_temp"
+                    def installPath = "/opt/${APP_NAME}/bundles"
+                    
+                    // 1. Clean and Create Directory Structure
+                    sh """
+                    rm -rf ${pkgDir}
+                    mkdir -p ${pkgDir}/DEBIAN
+                    mkdir -p ${pkgDir}${installPath}
+
+                    mkdir -p ${pkgDir}/etc/containers/systemd
+                    """
+
+                    // 2. Copy OCI Artifacts (The images)
+                    sh "sudo cp -r ${OCI_BUNDLE_DIR}/* ${pkgDir}${installPath}/"
+
+                    // 3. Copy & Configure Control File
+                    sh "cp packaging/control ${pkgDir}/DEBIAN/control"
+                    sh "sed -i 's/VERSION_PLACEHOLDER/${IMAGE_VERSION}/g' ${pkgDir}/DEBIAN/control"
+                    sh "sed -i 's/ARCH_PLACEHOLDER/${DEB_ARCH}/g' ${pkgDir}/DEBIAN/control"
+
+                    // 4. Copy & Configure Quadlet Files
+                    // Copy from repo to the temporary build folder
+                    sh "cp packaging/quadlets/*.container ${pkgDir}/etc/containers/systemd/"
+                    
+                    // Replace the version placeholder in ALL container files at once
+                    sh "sed -i 's/VERSION_PLACEHOLDER/${IMAGE_VERSION}/g' ${pkgDir}/etc/containers/systemd/*.container"
+
+                    // 5. Copy Post-Install Script
+                    sh "cp packaging/postinst.sh ${pkgDir}/DEBIAN/postinst"
+                    sh "chmod 755 ${pkgDir}/DEBIAN/postinst"
+
+                    // 6. Build the Package
+                    sh "dpkg-deb --build ${pkgDir} ${DIST_DIR}/${APP_NAME}_${IMAGE_VERSION}_${DEB_ARCH}.deb"
+
+                }
+            }
+        }
+
+
 
     }
 
     post {
         success {
             archiveArtifacts artifacts: '*.tar', fingerprint: true
-            archiveArtifacts artifacts: 'oci_bundles/*.tar.gz', fingerprint: true
-            echo "Pipeline successfully completed!"
+            archiveArtifacts artifacts: '*.deb', fingerprint: true
+            echo "Build successful! Download your .deb package from artifacts."
         }
 
         failure {

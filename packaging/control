@@ -1,0 +1,5 @@
+Package: my-iot-suite
+Version: VERSION_PLACEHOLDER
+Architecture: ARCH_PLACEHOLDER
+Maintainer: Jenkins
+Description: IoT Services Suite
