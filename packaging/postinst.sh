@@ -10,9 +10,9 @@ SERVICES_MQTT="service-mqtt"
 echo "1. Loading OCI images into Podman storage..."
 
 # Pull from the local installed OCI bundles into system storage
-sudo podman pull "oci:${APP_PATH}/${SERVICES_BLUETOOTH}"
-sudo podman pull "oci:${APP_PATH}/${SERVICES_SENSORS}"
-sudo podman pull "oci:${APP_PATH}/${SERVICES_WIFI}"
+# sudo podman pull "oci:${APP_PATH}/${SERVICES_BLUETOOTH}"
+# sudo podman pull "oci:${APP_PATH}/${SERVICES_SENSORS}"
+# sudo podman pull "oci:${APP_PATH}/${SERVICES_WIFI}"
 sudo podman pull "oci:${APP_PATH}/${SERVICES_MQTT}"
 
 
