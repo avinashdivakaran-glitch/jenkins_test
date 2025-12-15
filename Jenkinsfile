@@ -92,29 +92,29 @@ pipeline {
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
                     sudo podman push ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
-                    // sudo tar -czvf oci_bundles/service-bluetooth.tar.gz -C oci_bundles service-bluetooth
                     """
+                    // sudo tar -czvf oci_bundles/service-bluetooth.tar.gz -C oci_bundles service-bluetooth
 
                     sh """
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_SENSORS}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_SENSORS}
                     sudo podman push ${SERVICES_SENSORS}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_SENSORS}
-                    // sudo tar -czvf oci_bundles/service-blesensors.tar.gz -C oci_bundles service-blesensors
                     """
+                    // sudo tar -czvf oci_bundles/service-blesensors.tar.gz -C oci_bundles service-blesensors
 
                     sh """
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_WIFI}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_WIFI}
                     sudo podman push ${SERVICES_WIFI}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_WIFI}
-                    // sudo tar -czvf oci_bundles/service-wifi.tar.gz -C oci_bundles service-wifi
                     """
+                    // sudo tar -czvf oci_bundles/service-wifi.tar.gz -C oci_bundles service-wifi
 
                     sh """
                     sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_MQTT}
                     mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_MQTT}
                     sudo podman push ${SERVICES_MQTT}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_MQTT}
-                    // sudo tar -czvf oci_bundles/service-mqtt.tar.gz -C oci_bundles service-mqtt
                     """
+                    // sudo tar -czvf oci_bundles/service-mqtt.tar.gz -C oci_bundles service-mqtt
                 }
             }
         }
