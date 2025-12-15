@@ -19,7 +19,7 @@ ExecStart=/usr/bin/podman run --rm \
     --privileged \
     -v /var/run/dbus:/var/run/dbus \
     -v /usr/local/share/certs/broker:/certs:ro \
-    localhost/service-mqtt:VERSION_PLACEHOLDER
+    localhost/service-mqtt:latest
 
 # Stop command
 ExecStop=/usr/bin/podman stop service-mqtt
