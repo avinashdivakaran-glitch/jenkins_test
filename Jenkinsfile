@@ -134,3 +134,7 @@ pipeline {
         }
     }
 }
+
+
+// sudo podman run -it   --name service-mqtt   --net=host   --privileged   -v /var/run/dbus:/var/run/dbus -v /usr/local/share/certs/broker:/certs:ro   service-mqtt:v1.0.0
+// sudo podman run -it   --name service-bluetooth --net=host   --privileged   -v /var/run/dbus:/var/run/dbus -v /usr/local/share/certs/tnn-ble_app:/app/certs:ro   service-bluetooth:v1.0.0
