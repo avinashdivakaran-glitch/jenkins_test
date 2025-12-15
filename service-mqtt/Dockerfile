@@ -1,6 +1,6 @@
 
 
-FROM docker.io/library/debian:bookworm-slim
+FROM dc564059eedb
 
 # 1. Update and install necessary packages
 RUN apt-get update && \

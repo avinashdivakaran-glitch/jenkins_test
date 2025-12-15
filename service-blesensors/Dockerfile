@@ -15,7 +15,7 @@ RUN GOARCH=arm64 GOOS=linux go build -o health_monitor .
 
 
 # Stage 2: Final Image
-FROM docker.io/library/debian:bookworm-slim
+FROM dc564059eedb
 
 RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
