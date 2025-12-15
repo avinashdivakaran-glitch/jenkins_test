@@ -15,7 +15,7 @@ RUN GOARCH=arm64 GOOS=linux go build -o ble_fn_wifi .
 
 
 # Stage 2: Final Image
-FROM dc564059eedb
+FROM docker.io/library/debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
