@@ -1,4 +1,4 @@
-Package: my-iot-suite
+Package: tnn_backend
 Version: VERSION_PLACEHOLDER
 Architecture: ARCH_PLACEHOLDER
 Maintainer: Jenkins
