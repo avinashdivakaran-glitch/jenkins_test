@@ -5,12 +5,16 @@ pipeline {
         APP_NAME = "tnn_backend"
         IMAGE_VERSION = "v1.0.0"
 
+        DEB_ARCH = "arm64"
+
         SERVICES_BLUETOOTH = "service-bluetooth"
         SERVICES_SENSORS = "service-blesensors"
         SERVICES_MQTT = "service-mqtt"
         SERVICES_WIFI = "service-wifi"
 
         OCI_BUNDLE_DIR = "oci_bundles"
+
+        DIST_DIR = "dist" // Folder to store final artifacts
     }
 
     stages {
