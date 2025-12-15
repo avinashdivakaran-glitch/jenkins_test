@@ -27,6 +27,7 @@ pipeline {
                 if ! command -v podman >/dev/null 2>&1; then
                     sudo apt update
                     sudo apt install -y podman golang
+                fi
                 # Ensure dpkg-deb is available (usually in build-essential or dpkg-dev)
                 if ! command -v dpkg-deb >/dev/null 2>&1; then
                     sudo apt install -y dpkg-dev
