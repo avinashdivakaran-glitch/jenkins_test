@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-APP_PATH="/opt/tnn_backend/bundles"
 SERVICES_BLUETOOTH="service-bluetooth"
 SERVICES_SENSORS="service-blesensors"
 SERVICES_WIFI="service-wifi"
