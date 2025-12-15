@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         APP_NAME = "tnn_backend"
-        IMAGE_VERSION = "v1.0.0"
+        IMAGE_VERSION = "1.0.0"
 
         DEB_ARCH = "arm64"
 
