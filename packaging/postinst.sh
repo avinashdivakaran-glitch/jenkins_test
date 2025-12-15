@@ -9,9 +9,9 @@ SERVICES_MQTT="service-mqtt"
 echo "1. Loading OCI images into Podman storage..."
 
 # Pull from the local installed OCI bundles into system storage
-# sudo podman pull "oci:${APP_PATH}/${SERVICES_BLUETOOTH}"
-# sudo podman pull "oci:${APP_PATH}/${SERVICES_SENSORS}"
-# sudo podman pull "oci:${APP_PATH}/${SERVICES_WIFI}"
+podman pull "oci:${SERVICES_BLUETOOTH}"
+# podman pull "oci:${SERVICES_SENSORS}"
+# podman pull "oci:${SERVICES_WIFI}"
 podman pull "oci:${SERVICES_MQTT}"
 
 
@@ -22,7 +22,7 @@ systemctl daemon-reload
 
 echo "3. Starting Services..."
 systemctl enable --now "${SERVICES_MQTT}"
-# systemctl enable --now service-bluetooth
+systemctl enable --now "${SERVICES_BLUETOOTH}"
 # systemctl enable --now service-wifi
 # systemctl enable --now service-blesensors
 

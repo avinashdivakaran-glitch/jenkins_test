@@ -17,7 +17,6 @@ ExecStart=/usr/bin/podman run --rm \
     --name service-mqtt \
     --net=host \
     --privileged \
-    -v /var/run/dbus:/var/run/dbus \
     -v /usr/local/share/certs/broker:/certs:ro \
     localhost/service-mqtt:latest
 

@@ -56,7 +56,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    # sudo podman build --platform linux/arm64 -t ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} ./service-bluetooth
+                    sudo podman build --platform linux/arm64 -t ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} ./service-bluetooth
                     # sudo podman build --platform linux/arm64 -t ${SERVICES_SENSORS}:${IMAGE_VERSION} ./service-blesensors
 
                     # sudo podman build --platform linux/arm64 -t ${SERVICES_WIFI}:${IMAGE_VERSION} ./service-wifi
@@ -71,7 +71,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    # sudo podman save -o service-bluetooth_${IMAGE_VERSION}.tar ${SERVICES_BLUETOOTH}:${IMAGE_VERSION}
+                    sudo podman save -o service-bluetooth_${IMAGE_VERSION}.tar ${SERVICES_BLUETOOTH}:${IMAGE_VERSION}
                     # sudo podman save -o service-blesensors_${IMAGE_VERSION}.tar ${SERVICES_SENSORS}:${IMAGE_VERSION}
 
                     # sudo podman save -o service-wifi_${IMAGE_VERSION}.tar ${SERVICES_WIFI}:${IMAGE_VERSION}
@@ -92,11 +92,11 @@ pipeline {
                     """
 
                     // Generate OCI bundles for each service
-                    // sh """
-                    // sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
-                    // mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
-                    // sudo podman push ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
-                    // """
+                    sh """
+                    sudo rm -rf ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    mkdir -p ${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    sudo podman push ${SERVICES_BLUETOOTH}:${IMAGE_VERSION} oci:${OCI_BUNDLE_DIR}/${SERVICES_BLUETOOTH}
+                    """
                     // sudo tar -czvf oci_bundles/service-bluetooth.tar.gz -C oci_bundles service-bluetooth
 
                     // sh """

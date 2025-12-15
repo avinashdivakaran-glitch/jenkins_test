@@ -1,14 +1,28 @@
 [Unit]
 Description=Bluetooth Service Container
-After=network.target
+Wants=network-online.target
+After=network-online.target
 
 [Service]
+Type=simple
 Restart=always
-ExecStart=/usr/bin/podman run --name service-bluetooth --replace \
-    --net=host --privileged \
+RestartSec=5s
+
+# Clean up any existing container with the same name before starting
+ExecStartPre=-/usr/bin/podman rm -f service-bluetooth
+
+# The main run command
+# Added '--rm' (removes container when service stops)
+ExecStart=/usr/bin/podman run --rm \
+    --name service-bluetooth \
+    --net=host \
+    --privileged \
     -v /var/run/dbus:/var/run/dbus \
     -v /usr/local/share/certs/tnn-ble_app:/app/certs:ro \
-    localhost/service-bluetooth:VERSION_PLACEHOLDER
+    localhost/service-bluetooth:latest
+
+
+# Stop command 
 ExecStop=/usr/bin/podman stop -t 10 service-bluetooth
 
 [Install]
