@@ -143,7 +143,7 @@ pipeline {
                     """
 
                     // 2. Copy OCI Artifacts (The images)
-                    sh "sudo cp -r ${OCI_BUNDLE_DIR}/* ${pkgDir}${installPath}/"
+                    sh "sudo cp -r ${OCI_BUNDLE_DIR}/* ${pkgDir}/"
 
                     // 3. Copy & Configure Control File
                     sh "cp packaging/control ${pkgDir}/DEBIAN/control"

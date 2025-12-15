@@ -13,7 +13,7 @@ echo "1. Loading OCI images into Podman storage..."
 # sudo podman pull "oci:${APP_PATH}/${SERVICES_BLUETOOTH}"
 # sudo podman pull "oci:${APP_PATH}/${SERVICES_SENSORS}"
 # sudo podman pull "oci:${APP_PATH}/${SERVICES_WIFI}"
-podman pull "oci:${APP_PATH}/${SERVICES_MQTT}"
+podman pull "oci:${SERVICES_MQTT}"
 
 
 echo "2. Reloading systemd daemon ..."
