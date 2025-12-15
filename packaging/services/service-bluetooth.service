@@ -1,0 +1,15 @@
+[Unit]
+Description=Bluetooth Service Container
+After=network.target
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/podman run --name service-bluetooth --replace \
+    --net=host --privileged \
+    -v /var/run/dbus:/var/run/dbus \
+    -v /usr/local/share/certs/tnn-ble_app:/app/certs:ro \
+    localhost/service-bluetooth:VERSION_PLACEHOLDER
+ExecStop=/usr/bin/podman stop -t 10 service-bluetooth
+
+[Install]
+WantedBy=multi-user.target

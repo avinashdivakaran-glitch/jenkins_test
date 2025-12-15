@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = "tnn-backend"
+        APP_NAME = "tnn_backend"
         IMAGE_VERSION = "1.0.0"
 
         DEB_ARCH = "arm64"
@@ -129,7 +129,7 @@ pipeline {
             steps {
                 script {
                     def pkgDir = "deb_temp"
-                    def installPath = "/opt/${APP_NAME}/bundles"
+                    def installPath = "/opt/tnn_backend/bundles"
                     
                     // 1. Clean and Create Directory Structure
                     sh """
@@ -137,7 +137,9 @@ pipeline {
                     mkdir -p ${pkgDir}/DEBIAN
                     mkdir -p ${pkgDir}${installPath}
 
-                    mkdir -p ${pkgDir}/etc/containers/systemd
+                    mkdir -p ${pkgDir}/etc/systemd/system
+
+                    mkdir -p ${DIST_DIR}
                     """
 
                     // 2. Copy OCI Artifacts (The images)
@@ -148,20 +150,17 @@ pipeline {
                     sh "sed -i 's/VERSION_PLACEHOLDER/${IMAGE_VERSION}/g' ${pkgDir}/DEBIAN/control"
                     sh "sed -i 's/ARCH_PLACEHOLDER/${DEB_ARCH}/g' ${pkgDir}/DEBIAN/control"
 
-                    // 4. Copy & Configure Quadlet Files
-                    // Copy from repo to the temporary build folder
-                    sh "cp packaging/quadlets/*.container ${pkgDir}/etc/containers/systemd/"
-                    
-                    // Replace the version placeholder in ALL container files at once
-                    sh "sed -i 's/VERSION_PLACEHOLDER/${IMAGE_VERSION}/g' ${pkgDir}/etc/containers/systemd/*.container"
+                    // 4. Copy & Configure services
+                    sh "cp packaging/services/*.service ${pkgDir}/etc/systemd/system/"
+                    // Replace VERSION_PLACEHOLDER inside the service files (so they run the right image tag)
+                    sh "sed -i 's/VERSION_PLACEHOLDER/${IMAGE_VERSION}/g' ${pkgDir}/etc/systemd/system/*.service"
 
                     // 5. Copy Post-Install Script
                     sh "cp packaging/postinst.sh ${pkgDir}/DEBIAN/postinst"
                     sh "chmod 755 ${pkgDir}/DEBIAN/postinst"
 
                     // 6. Build the Package
-                    sh "mkdir -p dist"
-                    sh "dpkg-deb --build ${pkgDir} ${DIST_DIR}/${APP_NAME}_${IMAGE_VERSION}_${DEB_ARCH}.deb"
+                    sh "dpkg-deb --build ${pkgDir} ${DIST_DIR}/tnn_backend_${IMAGE_VERSION}_${DEB_ARCH}.deb"
 
                 }
             }

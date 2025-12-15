@@ -2,6 +2,10 @@
 set -e
 
 APP_PATH="/opt/tnn-backend/bundles"
+SERVICES_BLUETOOTH="service-bluetooth"
+SERVICES_SENSORS="service-blesensors"
+SERVICES_WIFI="service-wifi"
+SERVICES_MQTT="service-mqtt"
 
 echo "1. Loading OCI images into Podman storage..."
 
@@ -12,7 +16,7 @@ podman pull oci:${APP_PATH}/${SERVICES_WIFI}
 podman pull oci:${APP_PATH}/${SERVICES_MQTT}
 
 
-echo "2. Triggering Quadlet Generation..."
+echo "2. Reloading systemd daemon ..."
 
 # scans /etc/containers/systemd/ and creates /run/systemd/generator/service-mqtt.service
 systemctl daemon-reload

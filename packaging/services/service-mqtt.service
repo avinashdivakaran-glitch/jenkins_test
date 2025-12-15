@@ -1,0 +1,16 @@
+[Unit]
+Description=MQTT Service Container
+After=network.target
+
+[Service]
+Restart=always
+# Podman 3.4.4 compatible command
+ExecStart=/usr/bin/podman run --name service-mqtt --replace \
+    --net=host --privileged \
+    -v /var/run/dbus:/var/run/dbus \
+    -v /usr/local/share/certs/broker:/certs:ro \
+    localhost/service-mqtt:VERSION_PLACEHOLDER
+ExecStop=/usr/bin/podman stop -t 10 service-mqtt
+
+[Install]
+WantedBy=multi-user.target

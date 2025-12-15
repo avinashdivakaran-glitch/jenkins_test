@@ -1,0 +1,60 @@
+# 1. Update package lists (good practice)
+sudo apt update
+
+# 2. Install your package
+sudo apt install ./tnn-backend_1.0.0_arm64.deb
+
+
+sudo podman images
+
+sudo systemctl status service-mqtt
+sudo systemctl status service-bluetooth
+# View logs for the MQTT service
+sudo journalctl -u service-mqtt -f
+
+
+
+# Stop the specific services
+sudo systemctl stop service-mqtt service-bluetooth service-wifi service-blesensors
+
+# Disable them so they don't try to start again
+sudo systemctl disable service-mqtt service-bluetooth service-wifi service-blesensors
+
+# Verify the exact package name you installed
+dpkg -l | grep tnn
+
+# Uninstall it (assuming the name is tnn-backend or tnn_backend)
+sudo apt purge -y tnn_backend
+
+# 1. Remove the containers (instances)
+# -f forces removal even if they are somehow still running
+sudo podman rm -f service-mqtt service-bluetooth service-wifi service-blesensors
+
+# 2. Remove the images (the software blueprint)
+sudo podman rmi localhost/service-mqtt:v1.0.0
+sudo podman rmi localhost/service-bluetooth:v1.0.0
+sudo podman rmi localhost/service-wifi:v1.0.0
+sudo podman rmi localhost/service-blesensors:v1.0.0
+
+# OR: "Nuke" all unused images to be safe (Optional)
+# sudo podman image prune --all --force
+
+# Remove the installation directory
+sudo rm -rf /opt/tnn_backend
+
+# Reload systemd to make it realize the service files are gone
+sudo systemctl daemon-reload
+sudo systemctl reset-failed
+
+
+
+
+
+# 1. Force remove the broken package
+sudo dpkg --remove --force-all tnn-backend
+
+# 2. Clean up any broken apt states
+sudo apt --fix-broken install
+
+# 3. Manually delete the artifact folder if it exists
+sudo rm -rf /opt/tnn-backend/

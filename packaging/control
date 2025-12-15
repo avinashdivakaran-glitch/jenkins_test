@@ -1,5 +1,10 @@
 Package: tnn-backend
 Version: VERSION_PLACEHOLDER
 Architecture: ARCH_PLACEHOLDER
-Maintainer: Jenkins
-Description: IoT Services Suite
+Maintainer: Jenkins Automation
+Depends: podman, systemd
+Section: custom
+Priority: optional
+Description: IoT Services Suite for Jetson
+ Installs MQTT, Bluetooth, Wifi, and Sensor services
+ and loads them into the local Podman registry.
