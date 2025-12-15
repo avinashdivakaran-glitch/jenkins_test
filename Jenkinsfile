@@ -160,6 +160,7 @@ pipeline {
                     sh "chmod 755 ${pkgDir}/DEBIAN/postinst"
 
                     // 6. Build the Package
+                    sh "mkdir -p dist"
                     sh "dpkg-deb --build ${pkgDir} ${DIST_DIR}/${APP_NAME}_${IMAGE_VERSION}_${DEB_ARCH}.deb"
 
                 }
