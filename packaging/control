@@ -5,6 +5,6 @@ Maintainer: Jenkins Automation
 Depends: podman, systemd
 Section: custom
 Priority: optional
-Description: IoT Services Suite for Jetson
+Description: tnn Services Suite for Jetson
  Installs MQTT, Bluetooth, Wifi, and Sensor services
  and loads them into the local Podman registry.

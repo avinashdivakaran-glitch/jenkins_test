@@ -1,0 +1,29 @@
+[Unit]
+Description=Bluetooth Service Container
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+
+# Clean up any existing container with the same name before starting
+ExecStartPre=-/usr/bin/podman rm -f service-wifi
+
+# The main run command
+# Added '--rm' (removes container when service stops)
+ExecStart=/usr/bin/podman run --rm \
+    --name service-wifi \
+    --net=host \
+    --privileged \
+    -v /var/run/dbus:/var/run/dbus \
+    -v /usr/local/share/certs/tnn-wifi_app:/app/certs:ro \
+    localhost/service-wifi:latest
+
+
+# Stop command 
+ExecStop=/usr/bin/podman stop -t 10 service-bluetooth
+
+[Install]
+WantedBy=multi-user.target

@@ -18,10 +18,10 @@ import (
 
 // MQTT broker settings
 var (
-	cert       = false
+	cert       = true
 	broker     = ""
-	tcp_broker = "tcp://localhost:1883"
-	ssl_broker = "ssl://192.168.1.83:8883"
+	tcp_broker = "tcp://localhost:1884"
+	ssl_broker = "ssl://localhost:8884"
 	clientID   = "TNN_WiFiService"
 	username   = ""
 	password   = ""
@@ -107,6 +107,8 @@ func testTLSConnection(brokerURL string, config *tls.Config) error {
 }
 
 func Init_mqttClient() (client mqtt.Client) {
+	opts := mqtt.NewClientOptions()
+
 	if !cert {
 		broker = tcp_broker
 	} else {
@@ -137,14 +139,15 @@ func Init_mqttClient() (client mqtt.Client) {
 			logrus.Fatalf("TLS connection pre-flight check FAILED: %v", err)
 		}
 		logrus.Info("TLS pre-flight check succeeded.")
+
+		opts.SetTLSConfig(tlsConfig)
 	}
 
 	// 4. MQTT client options
-	opts := mqtt.NewClientOptions()
+	// opts := mqtt.NewClientOptions()
 
 	opts.AddBroker(broker)
 	opts.SetClientID(clientID)
-	// opts.SetTLSConfig(tlsConfig)
 
 	opts.SetKeepAlive(60 * time.Second)
 	opts.SetPingTimeout(10 * time.Second)

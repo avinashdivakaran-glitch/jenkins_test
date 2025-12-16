@@ -15,12 +15,13 @@ RUN GOARCH=arm64 GOOS=linux go build -o health_monitor .
 
 
 # Stage 2: Final Image
-FROM docker.io/library/debian:bookworm-slim
+FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/health_monitor /usr/local/bin/
+COPY certs /app/certs/
 
 CMD [ "health_monitor" ]
 
