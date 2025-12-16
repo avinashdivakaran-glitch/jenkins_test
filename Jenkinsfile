@@ -155,9 +155,11 @@ pipeline {
                     // Replace VERSION_PLACEHOLDER inside the service files (so they run the right image tag)
                     sh "sed -i 's/VERSION_PLACEHOLDER/${IMAGE_VERSION}/g' ${pkgDir}/etc/systemd/system/*.service"
 
-                    // 5. Copy Post-Install Script
+                    // 5. Copy Post-Install Post-Remove Script
                     sh "cp packaging/postinst.sh ${pkgDir}/DEBIAN/postinst"
                     sh "chmod 755 ${pkgDir}/DEBIAN/postinst"
+                    sh "cp packaging/postrm.sh ${pkgDir}/DEBIAN/postrm"
+                    sh "chmod 755 ${pkgDir}/DEBIAN/postrm"
 
                     // 6. Build the Package
                     sh "dpkg-deb --build ${pkgDir} ${DIST_DIR}/tnn_backend_${IMAGE_VERSION}_${DEB_ARCH}.deb"
